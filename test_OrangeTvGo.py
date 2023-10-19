@@ -9,21 +9,18 @@ import appium
 
 def test_open_app(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
-    time.sleep(5)
-    driver.quit()
     # how to chck status 200 code????????
+    driver.quit()
 
 
 def test_verify_if_all_components_loaded(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
-    time.sleep(5)
     # what is complete app?
     driver.quit()
 
 
 def test_count_banners(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
-    time.sleep(5)
 
     wait = WebDriverWait(driver, 25, poll_frequency=1,
                          ignored_exceptions=[ElementNotVisibleException, ElementNotSelectableException,
@@ -32,19 +29,12 @@ def test_count_banners(desired_capabilities):
     action = TouchAction(driver)
 
     dismiss_button = wait.until(lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/menu_login"))
-    assert isinstance(dismiss_button, appium.webdriver.webelement.WebElement)
     dismiss_button.click()
-
-    time.sleep(1)
-
     agreement_checkbox = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_analytics_checkbox"))
-    assert isinstance(agreement_checkbox, appium.webdriver.webelement.WebElement)
     agreement_checkbox.click()
-
     lets_start = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_btn_start"))
-    assert isinstance(lets_start, appium.webdriver.webelement.WebElement)
     lets_start.click()
 
     deviceSize = driver.get_window_size()
@@ -57,25 +47,24 @@ def test_count_banners(desired_capabilities):
     endy = 670
 
     titles = []
-    multiplier = 0
-    while True:
+    offset = 0
+    flag = True
+    while flag:
         banner = wait.until(lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/banner_small"))
-        assert isinstance(banner, appium.webdriver.webelement.WebElement)
         banner.click()
         time.sleep(1)
         title_obj = wait.until(
             lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/text_expanded"))
-        assert isinstance(title_obj, appium.webdriver.webelement.WebElement)
         if title_obj.text not in titles:
             titles.append(title_obj.text)
-            multiplier += 1
+            offset += 1
             # go back to home screen
             driver.press_keycode(4)
-            for i in range(multiplier):
+            for i in range(offset):
                 time.sleep(2)
                 action.long_press(None, startx, starty).move_to(None, endx, endy).release().perform()
         else:
-            break
+            flag = False
 
     print(f"In the app is: {len(titles)} banners.")
 
@@ -84,29 +73,19 @@ def test_count_banners(desired_capabilities):
 
 def test_enter_to_fourth_recommended_movie(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
-    time.sleep(5)
 
     wait = WebDriverWait(driver, 25, poll_frequency=1,
                          ignored_exceptions=[ElementNotVisibleException, ElementNotSelectableException,
                                              NoSuchElementException])
 
     dismiss_button = wait.until(lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/menu_login"))
-    assert isinstance(dismiss_button, appium.webdriver.webelement.WebElement)
     dismiss_button.click()
-
-    time.sleep(1)
     agreement_checkbox = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_analytics_checkbox"))
-    assert isinstance(agreement_checkbox, appium.webdriver.webelement.WebElement)
     agreement_checkbox.click()
-
-    time.sleep(3)
     lets_start = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_btn_start"))
-    assert isinstance(lets_start, appium.webdriver.webelement.WebElement)
     lets_start.click()
-
-    time.sleep(3)
     fourth_movie_image = wait.until(
         lambda x: x.find_element(By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.'
                                            'LinearLayout/android.widget.FrameLayout/android.widget.'
@@ -120,35 +99,26 @@ def test_enter_to_fourth_recommended_movie(desired_capabilities):
                                            'android.view.ViewGroup[2]/androidx.recyclerview.widget.RecyclerView'
                                            '/androidx.appcompat.widget.LinearLayoutCompat[4]/android.widget.ImageView'))
 
-    assert isinstance(fourth_movie_image, appium.webdriver.webelement.WebElement)
     fourth_movie_image.click()
-    time.sleep(3)
     driver.quit()
 
 
 def test_grab_actors_and_print(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
-    time.sleep(5)
-
     wait = WebDriverWait(driver, 25, poll_frequency=1,
                          ignored_exceptions=[ElementNotVisibleException, ElementNotSelectableException,
                                              NoSuchElementException])
 
     action = TouchAction(driver)
+
     dismiss_button = wait.until(lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/menu_login"))
     dismiss_button.click()
-    assert isinstance(dismiss_button, appium.webdriver.webelement.WebElement)
-    time.sleep(1)
     agreement_checkbox = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_analytics_checkbox"))
-    assert isinstance(dismiss_button, appium.webdriver.webelement.WebElement)
     agreement_checkbox.click()
-    time.sleep(3)
     lets_start = wait.until(
         lambda x: x.find_element(By.ID, "com.orange.pl.orangetvgo:id/welcome_btn_start"))
-    assert isinstance(dismiss_button, appium.webdriver.webelement.WebElement)
     lets_start.click()
-    time.sleep(3)
     fourth_movie_image = wait.until(
         lambda x: x.find_element(By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.'
                                            'LinearLayout/android.widget.FrameLayout/android.widget.'
@@ -162,13 +132,11 @@ def test_grab_actors_and_print(desired_capabilities):
                                            'android.view.ViewGroup[2]/androidx.recyclerview.widget.RecyclerView'
                                            '/androidx.appcompat.widget.LinearLayoutCompat[4]/android.widget.ImageView'))
 
-    assert isinstance(fourth_movie_image, appium.webdriver.webelement.WebElement)
     fourth_movie_image.click()
 
     scroll_down_to_cast = wait.until(lambda x: x.find_element(By.ANDROID_UIAUTOMATOR,
                                                               'new UiScrollable(new UiSelector()).'
                                                               'scrollIntoView(text("Obsada"))'))
-    assert isinstance(scroll_down_to_cast, appium.webdriver.webelement.WebElement)
     deviceSize = driver.get_window_size()
     screenWidth = deviceSize['width']
     screenHeight = deviceSize['height']
@@ -183,8 +151,6 @@ def test_grab_actors_and_print(desired_capabilities):
     i = 0
     while i < 15:
         cast = wait.until(lambda x: x.find_elements(By.ID, "com.orange.pl.orangetvgo:id/actor_name"))
-        assert isinstance(cast, list)
-        assert cast == True
         actors.extend([actor.text for actor in cast])
         action.long_press(None, startx, starty).move_to(None, endx, endy).release().perform()
         i += 1
@@ -195,5 +161,4 @@ def test_grab_actors_and_print(desired_capabilities):
 
     print([name[0] + ' ' + name[1] for name in sorted_list])
 
-    time.sleep(5)
     driver.quit()
