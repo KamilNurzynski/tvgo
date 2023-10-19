@@ -25,7 +25,9 @@ def test_count_banners(desired_capabilities):
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_capabilities)
     time.sleep(5)
 
-    wait = WebDriverWait(driver, 25, poll_frequency=1)
+    wait = WebDriverWait(driver, 25, poll_frequency=1,
+                         ignored_exceptions=[ElementNotVisibleException, ElementNotSelectableException,
+                                             NoSuchElementException])
 
     action = TouchAction(driver)
 
