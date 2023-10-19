@@ -11,7 +11,7 @@ Instruction how to use it on Windows:
 4. Create project in your Python IDE
 5. Install libraries/frameworks to your project from requirements.txt file
 6. Copy/import repoistory. Make sure that conftest.py and test_OrangeTvGo.py are in the same folder.
-7. Change *.apk path in conftest.py to lacation on your computer. conftest.py --> desired_capabilities -->  desired_caps['app'] = 'location on your computer' 
+7. Change *.apk path in conftest.py to location on your computer. conftest.py --> desired_capabilities -->  desired_caps['app'] = 'location on your computer' 
 8. Start your appium server. Make sure to have
    Remote pathset like: /wd/hub
    Host: 0.0.0.0
